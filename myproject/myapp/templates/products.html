@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Товары</h2>
+    <ul>
+        <li><a href="/product/0">{{ products.0.name }}</a></li>
+        <li><a href="/product/1">{{ products.1.name }}</a></li>
+        <li><a href="/product/2">{{ products.2.name }}</a></li>
+    </ul>
+{% endblock %}
