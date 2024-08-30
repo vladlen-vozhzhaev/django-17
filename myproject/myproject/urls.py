@@ -19,6 +19,7 @@ from django.urls import path
 from myapp.views import *
 urlpatterns = [
     path("", index, name="index"),
+    path("article/<int:id>", article),
     path("products/", products),
     path("product/<int:index>", product),
     path("about/", about),
@@ -26,5 +27,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('game/', game, name="game"),
     path('pages/page1/', get_phrase1, name="get_phrase1"),
-    path('pages/page2/', get_phrase2, name="get_phrase2")
+    path('pages/page2/', get_phrase2, name="get_phrase2"),
+    path('handler-contact/', handlerContact),
 ]

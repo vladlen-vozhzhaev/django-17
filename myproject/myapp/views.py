@@ -1,15 +1,18 @@
 import random
 from django.http import HttpResponse
 
-from django.shortcuts import render
-
+from django.shortcuts import render, get_object_or_404
+from .models import Article
 
 
 # Create your views here.
 def index(request):
-    title = "Главная страница"
-    data = {"title": title}
-    return render(request, "home.html", context=data)
+    articles = Article.objects.all()
+    return render(request, "index.html", {"articles": articles})
+
+def article(req, id):
+    article = get_object_or_404(Article, id=id)
+    return render(req, "post.html", {"article": article})
 
 def about(req):
     return render(req, "about.html")
@@ -74,3 +77,9 @@ def get_phrase1(request):
 
 def get_phrase2(request):
     return HttpResponse("Вторая случайная фраза")
+
+def handlerContact(req):
+    print(req.POST.get("name"))
+    print(req.POST.get("email"))
+    print(req.POST.get("msg"))
+    return HttpResponse("success")
