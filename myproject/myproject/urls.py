@@ -18,8 +18,11 @@ from django.contrib import admin
 from django.urls import path
 from myapp.views import *
 urlpatterns = [
-    path("", index, name="index"),
+    path("", index, name="home"),
     path("article/<int:id>", article),
+    path("register/", registration),
+    path("login/", login_handler),
+    path("add_comment/", add_comment),
     path("products/", products),
     path("product/<int:index>", product),
     path("about/", about),

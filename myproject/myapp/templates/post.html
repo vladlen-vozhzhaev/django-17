@@ -3,4 +3,23 @@
     <h1>{{article.title}}</h1>
     <p>{{article.content}}</p>
     <p>Опубликовано: {{article.create_at}}</p>
+    <hr>
+    {% if user.is_authenticated %}
+        <form action="/add_comment/" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{article.id}}" name="article_id">
+            <div class="mb-3">
+                <textarea name="comment" class="form-control" placeholder="Комментарий"></textarea>
+            </div>
+            <div class="mb-3">
+                <input type="submit" class="btn btn-primary">
+            </div>
+        </form>
+        <hr>
+    {% endif %}
+    {% for comment in comments %}
+        <div class="mb-3">
+            {{comment.comment}}
+        </div>
+    {% endfor %}
 {% endblock %}

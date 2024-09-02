@@ -1,8 +1,10 @@
 import random
 from django.http import HttpResponse
 
-from django.shortcuts import render, get_object_or_404
-from .models import Article
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Article, Comment
+from .forms import UserRegistrationForm, UserAuthForm
+from django.contrib.auth import login
 
 
 # Create your views here.
@@ -10,9 +12,40 @@ def index(request):
     articles = Article.objects.all()
     return render(request, "index.html", {"articles": articles})
 
+def registration(req):
+    if req.method == "POST":
+        form = UserRegistrationForm(req.POST)
+        if form.is_valid():
+            user = form.save()
+            login(req, user)
+            return redirect("home")
+    else:
+        form = UserRegistrationForm()
+    return render(req, "register.html", {'form': form})
+
+def login_handler(req):
+    if req.method == "POST":
+        form = UserAuthForm(req, data=req.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(req, user)
+            return redirect("home")
+    else:
+        form = UserAuthForm()
+    return render(req, 'login.html', {'form': form})
+
+def add_comment(req):
+    article_id = req.POST.get('article_id')
+    user_id = req.user.id
+    comment = req.POST.get("comment")
+    commentModel = Comment(article_id=article_id, user_id=user_id, comment=comment)
+    commentModel.save()
+    return redirect(f"/article/{article_id}")
+
 def article(req, id):
     article = get_object_or_404(Article, id=id)
-    return render(req, "post.html", {"article": article})
+    comments = Comment.objects.filter(article_id=id)
+    return render(req, "post.html", {"article": article, "comments": comments})
 
 def about(req):
     return render(req, "about.html")

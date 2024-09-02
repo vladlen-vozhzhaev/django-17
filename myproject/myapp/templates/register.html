@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form action="/register/" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="">Логин</label>
+            <input type="text" name="username" required class="form-control" placeholder="Login">
+        </div>
+        <div class="mb-3">
+            <label for="">E-mail</label>
+            <input type="email" name="email" required class="form-control" placeholder="Email">
+        </div>
+        <div class="mb-3">
+            <label for="">Пароль</label>
+            <input type="password" name="password1" required class="form-control" placeholder="Пароль">
+        </div>
+        <div class="mb-3">
+            <label for="">Подтвердите пароль</label>
+            <input type="password" name="password2" required class="form-control" placeholder="Подтвердите пароль">
+        </div>
+        <div class="mb-3">
+            <input type="submit" class="form-control btn btn-primary" value="Зарегистрироваться">
+        </div>
+        <input style="display: none;" type="radio" name="usable_password" value="true" checked="">
+    </form>
+{% endblock %}
